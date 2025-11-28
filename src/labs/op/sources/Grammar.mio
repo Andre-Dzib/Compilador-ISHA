@@ -1,0 +1,16 @@
+$PROG
+<PROG> → PROGRAMA [id] <SENTS> FINPROG
+<SENTS> → <SENT> <SENTS>
+<SENTS> → <SENT>
+<SENT> → [id] = <EXPR>
+<SENT> → SI <COMPARA> ENTONCES <SENTS> SINO <SENTS> FINSI
+<SENT> → SI <COMPARA> ENTONCES <SENTS> FINSI
+<SENT> → MIENTRAS <COMPARA> HACER <SENTS> FINM
+<SENT> → IMPRIME <EXPR>
+<SENT> → IMPRIME [txt]
+<SENT> → LEE [id]
+<SENT> → # [comentario]
+<EXPR> → <FAC> [op_ar] <FAC>|<FAC>
+<FAC> → [id]
+<FAC> → [val]
+<COMPARA> → [id] [op_rel] <EXPR>
