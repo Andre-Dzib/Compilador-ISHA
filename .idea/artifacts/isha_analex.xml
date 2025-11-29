@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="isha_analex">
+    <output-path>$PROJECT_DIR$/out/artifacts/isha_analex</output-path>
+    <root id="archive" name="isha_analex.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/labs/al/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="Compilador_FY" />
+    </root>
+  </artifact>
+</component>

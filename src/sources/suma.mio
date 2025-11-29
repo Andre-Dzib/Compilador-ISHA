@@ -1,0 +1,6 @@
+PROGRAMA suma
+sum = 2
+sum2 = 3
+res = sum + sum2
+IMPRIME res
+FINPROG
