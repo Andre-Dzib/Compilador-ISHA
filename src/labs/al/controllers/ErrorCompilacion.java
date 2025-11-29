@@ -1,4 +1,4 @@
-package labs.op.controllers;
+package labs.al.controllers;
 
 public class ErrorCompilacion {
     private String codigo; // Por ejemplo, valor hexadecima 0xg8
