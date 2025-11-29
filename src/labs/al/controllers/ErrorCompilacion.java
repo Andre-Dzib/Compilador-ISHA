@@ -1,9 +1,9 @@
 package labs.al.controllers;
 
 public class ErrorCompilacion {
-    private String codigo; // Por ejemplo, valor hexadecima 0xg8
-    private String mensaje; // Numero invalido
-    private int linea; // Posición de linea
+    final private String codigo; // Por ejemplo, valor hexadecima 0xg8
+    final private String mensaje; // Numero invalido
+    final private int linea; // Posición de linea
 
     public ErrorCompilacion(String codigo, String mensaje, int linea) {
         this.codigo = codigo;
