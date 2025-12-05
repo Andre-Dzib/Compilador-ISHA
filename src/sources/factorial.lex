@@ -7,7 +7,9 @@ PROGRAMA
 =
 [val]
 IMPRIME
+[txt]
 IMPRIME
+[txt]
 LEE
 [id]
 MIENTRAS
@@ -22,9 +24,11 @@ HACER
 [id]
 FINM
 IMPRIME
+[txt]
 IMPRIME
 [id]
 IMPRIME
+[txt]
 IMPRIME
 [id]
 FINPROG

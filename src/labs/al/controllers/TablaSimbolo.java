@@ -1,7 +1,6 @@
 package labs.al.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class TablaSimbolo {
     private Map<String, Integer> ids = new HashMap<>();
@@ -15,20 +14,49 @@ public class TablaSimbolo {
         this.ids = new HashMap<>();
     }
 
-    public boolean registrarID(String identificador){
-        if (ids.containsKey(identificador)) return false;
-        nextID++;
-        ids.put(identificador, nextID);
-        return true;
+    public void registrarID(String identificador){
+        if (!ids.containsKey(identificador)) ids.put(identificador, nextID++);
     }
     public void registrarTXT(String texto){
-        nextTXT++;
-        txt.put(texto, nextTXT);
+        if (!txt.containsKey(texto)) txt.put(texto, nextTXT++);
     }
     public void registrarVAL(String variable, String numHEX){
-        val.put(variable, numHEX);
+        if (!val.containsKey(variable)) val.put(variable, numHEX);
     }
-    public Map<String, Integer> getIds(){return this.ids;}
-    public Map<String, Integer> getTxt(){return this.txt;}
+    public Map<String, Integer> getIds(){return ordenarPorValor(this.ids);}
+    public Map<String, Integer> getTxt(){return ordenarPorValor(this.txt);}
     public Map<String, String> getVal(){return this.val;}
+    private Map<String, Integer> ordenarPorValor(Map<String, Integer> original) {
+        return original.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue()) // Orden ascendente por valor
+                .collect(
+                        LinkedHashMap::new,
+                        (m, e) -> m.put(e.getKey(), e.getValue()),
+                        LinkedHashMap::putAll
+                );
+    }
+    public List<String> lineal(){
+        List<String> lista = new ArrayList<>();
+        String separador = "==================================================";
+        lista.add(separador);
+        lista.add("                      ID'S                  ");
+        lista.add(separador);
+        for (Map.Entry<String, Integer> code: this.getIds().entrySet()){
+            lista.add(code.getKey() + ",  " + code.getValue());
+        }
+        lista.add(separador);
+        lista.add("                      TXT'S                  ");
+        lista.add(separador);
+        for (Map.Entry<String, Integer> code: this.getTxt().entrySet()){
+            lista.add(code.getKey() + ",  " + code.getValue());
+        }
+        lista.add(separador);
+        lista.add("                      VAL'S                  ");
+        lista.add(separador);
+        for (Map.Entry<String, String> code: this.getVal().entrySet()){
+            lista.add(code.getKey() + ",  " + code.getValue());
+        }
+        return lista;
+    }
 }

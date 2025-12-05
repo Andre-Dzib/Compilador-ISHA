@@ -8,7 +8,7 @@ public class Conversor {
 
     private static final Pattern IDENTIFICADORES = Pattern.compile("^[A-Za-z][A-Za-z0-9]{0,15}$");
     private static final Pattern HEXADECIMAL = Pattern.compile("^0x[0-9A-Fa-f]+$");
-    private static final Pattern TEXTO = Pattern.compile("^\".*\"$");
+    private static final Pattern TEXTO = Pattern.compile("^\"(\\\\\"|[^\"])*\"$");
 
     private static final Set<String> PALABRAS_RESERVADAS = Set.of(
             "PROGRAMA", "FINPROG", "SI","ENTONCES","SINO","FINSI",
@@ -89,6 +89,8 @@ public class Conversor {
 
         // IMPRIME
         if (primero.equals("IMPRIME")) {
+            lex.add("IMPRIME");
+
             if (tokens.size() < 2) {
                 errores.add(new ErrorCompilacion("E002", "Falta argumento para IMPRIME", numLinea));
                 return;
@@ -96,13 +98,11 @@ public class Conversor {
 
             String arg = tokens.get(1);
 
-            lex.add("IMPRIME");
-
             if (esTextoLiteral(arg)) {
                 simbolos.registrarTXT(arg);
                 lex.add("[txt]");
             } else if (esIdentificador(arg)) {
-                simbolos.registrarID(arg); // Verificar
+                simbolos.registrarID(arg);
                 lex.add("[id]");
             } else {
                 errores.add(new ErrorCompilacion(arg, "Literal o identificador inválido en IMPRIME", numLinea));
@@ -110,6 +110,7 @@ public class Conversor {
 
             return;
         }
+
 
         // LEE id
         if (primero.equals("LEE")) {
@@ -156,7 +157,7 @@ public class Conversor {
 
             // valor derecho (hex o id)
             String fac = tokens.get(3);
-            procesarFactor(fac);
+            procesarFactor(fac, null);
 
             // ENTONCES
             if (!tokens.contains("ENTONCES")) {
@@ -171,6 +172,7 @@ public class Conversor {
                 int idx = tokens.indexOf("IMPRIME");
                 if (idx + 1 < tokens.size()) {
                     String arg = tokens.get(idx + 1);
+                    System.out.println(arg);
                     if (esTextoLiteral(arg)) {
                         simbolos.registrarTXT(arg);
                         lex.add("[txt]");
@@ -207,7 +209,7 @@ public class Conversor {
                 lex.add("[op_rel]");
             }
 
-            procesarFactor(tokens.get(3));
+            procesarFactor(tokens.get(3), null);
 
             if (tokens.contains("HACER")) {
                 lex.add("HACER");
@@ -235,7 +237,7 @@ public class Conversor {
 
             lex.add("=");
 
-            procesarFactor(tokens.get(2));
+            procesarFactor(tokens.get(2), id);
             return;
         }
 
@@ -247,14 +249,14 @@ public class Conversor {
     // ================================================
     // =                PROCESAR FACTOR               =
     // ================================================
-    private void procesarFactor(String token) {
+    private void procesarFactor(String token, String variableActual) {
 
         if (esIdentificador(token)) {
             simbolos.registrarID(token);
             lex.add("[id]");
         }
         else if (esHex(token)) {
-            simbolos.registrarVAL(token, token); // Error, solucionarlo más tarde
+            simbolos.registrarVAL(variableActual, token); // Error, solucionarlo más tarde
             lex.add("[val]");
         }
         else {
@@ -268,42 +270,60 @@ public class Conversor {
     // ================================================
     public List<String> tokenizar(String linea) {
         List<String> tokens = new ArrayList<>();
+
+        // Normalizar comillas tipográficas a comillas ASCII
+        linea = linea.replace('“', '"').replace('”', '"');
+
         boolean enComillas = false;
         StringBuilder cur = new StringBuilder();
 
         for (int i = 0; i < linea.length(); i++) {
             char c = linea.charAt(i);
 
+            // --- Manejo de comillas ---
             if (c == '"') {
-                enComillas = !enComillas;
                 cur.append(c);
+                enComillas = !enComillas;
                 continue;
             }
 
+            // --- Si estamos dentro de comillas, copiar literalmente ---
             if (enComillas) {
                 cur.append(c);
                 continue;
             }
 
-            // Separadores
-            if (Character.isWhitespace(c) || c == '=' || c == '<' || c == '>' || c == '+'
-                    || c == '-' || c == '*' || c == '/') {
+            // --- Separadores fuera de comillas ---
+            if (Character.isWhitespace(c) || "=<>+-*/".indexOf(c) >= 0) {
 
+                // Si había algo acumulado, agrégalo
                 if (cur.length() > 0) {
                     tokens.add(cur.toString());
                     cur.setLength(0);
                 }
 
-                if (c != ' ') tokens.add(String.valueOf(c));
-            } else {
-                cur.append(c);
+                // Operadores también son tokens (excepto espacios)
+                if (!Character.isWhitespace(c)) {
+                    tokens.add(String.valueOf(c));
+                }
+
+                continue;
             }
+
+            // --- Caracter normal ---
+            cur.append(c);
         }
 
-        if (cur.length() > 0) tokens.add(cur.toString());
+        // Último token si quedó algo
+        if (cur.length() > 0) {
+            tokens.add(cur.toString());
+        }
 
         return tokens;
     }
+
+
+
 
 
     // ================================================

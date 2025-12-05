@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import labs.al.controllers.TablaSimbolo;
 import labs.al.fileManager.Escritor;
 import labs.al.fileManager.Lector;
 import labs.al.controllers.Conversor;
@@ -38,6 +39,13 @@ public class Main {
         }
 
         Path output = ruta.getParent().resolve(ruta.getFileName().toString().split("\\.")[0] + ".lex");
+        Path output2 = ruta.getParent().resolve(ruta.getFileName().toString().split("\\.")[0] + ".sim");
         Escritor.escribirLex(output, codigoLex);
+
+        TablaSimbolo tablita = conversor.getTabla();
+        Escritor.escribirSim(output2, tablita.lineal());
+        Escritor.escribirTablaVar(tablita.getVal());
+        Escritor.escribirTablaDatos(tablita.getIds(), "ID");
+        Escritor.escribirTablaDatos(tablita.getTxt(), "TXT");
     }
 }
