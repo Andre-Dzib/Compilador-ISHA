@@ -43,13 +43,13 @@ public class TablaSimbolo {
         lista.add("                      ID'S                  ");
         lista.add(separador);
         for (Map.Entry<String, Integer> code: this.getIds().entrySet()){
-            lista.add(code.getKey() + ",  " + code.getValue());
+            lista.add(code.getKey() + ",  ID" + code.getValue());
         }
         lista.add(separador);
         lista.add("                      TXT'S                  ");
         lista.add(separador);
         for (Map.Entry<String, Integer> code: this.getTxt().entrySet()){
-            lista.add(code.getKey() + ",  " + code.getValue());
+            lista.add(code.getKey() + ",  TXT" + code.getValue());
         }
         lista.add(separador);
         lista.add("                      VAL'S                  ");

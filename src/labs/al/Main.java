@@ -21,11 +21,14 @@ public class Main {
         }
 
         Conversor conversor = new Conversor();
-        Path ruta;
+        Path ruta, base, rutaLex, rutaSim, rutaError;
         List<String> codigoBase;
         List<String> codigoLex;
         try {
-            ruta = Paths.get(args[0]);
+            // ruta actual src.labs.al.main
+            // ruta del documento src.sources.tests donde esta factorial.mio
+            base = Paths.get("src", "sources", "tests").toAbsolutePath();
+            ruta = base.resolve(args.length > 1 ? args[0] : "factorial.mio");
             codigoBase = Lector.leerCodigo(ruta);
             codigoLex = conversor.procesar(codigoBase);
 
@@ -37,15 +40,14 @@ public class Main {
             System.out.println("La ruta del archivo proporcionado no fue encontrada");
             return;
         }
-
-        Path output = ruta.getParent().resolve(ruta.getFileName().toString().split("\\.")[0] + ".lex");
-        Path output2 = ruta.getParent().resolve(ruta.getFileName().toString().split("\\.")[0] + ".sim");
-        Escritor.escribirLex(output, codigoLex);
-
-        TablaSimbolo tablita = conversor.getTabla();
-        Escritor.escribirSim(output2, tablita.lineal());
-        Escritor.escribirTablaVar(tablita.getVal());
-        Escritor.escribirTablaDatos(tablita.getIds(), "ID");
-        Escritor.escribirTablaDatos(tablita.getTxt(), "TXT");
+        rutaLex = ruta.getParent().resolve(ruta.getFileName().toString().replaceFirst("\\.[^.]+$", "") + ".lex");
+        rutaSim = ruta.getParent().resolve(ruta.getFileName().toString().replaceFirst("\\.[^.]+$", "") + ".sim");
+        rutaError = ruta.getParent().resolve(ruta.getFileName().toString().replaceFirst("\\.[^.]+$", "") + ".txt");
+        Escritor.escribirLex(rutaLex, codigoLex);
+        Escritor.escribirSim(rutaError, conversor.getListErrores());
+        Escritor.escribirSim(rutaSim, conversor.getTabla().lineal());
+        Escritor.escribirTablaVar(conversor.getTabla().getVal());
+        Escritor.escribirTablaDatos(conversor.getTabla().getIds(), "ID");
+        Escritor.escribirTablaDatos(conversor.getTabla().getTxt(), "TXT");
     }
 }

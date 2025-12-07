@@ -1,5 +1,6 @@
 package labs.as;
 
+import labs.al.fileManager.Lector;
 import labs.as.controllers.Conversor;
 
 import java.io.IOException;
@@ -8,16 +9,17 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        if(args.length < 1) {
+        if(args.length > 1) {
             System.out.println("se requiere especificar un archivo a evaluar");
             return;
         }
-        Path entrada;
+        Path entrada, base;
+        base = Paths.get("src", "sources", "tests").toAbsolutePath();
         boolean resultado = false;
         try {
-            entrada = Paths.get(args[0]);
+            entrada = base.resolve("suma.mio");
 
-            List<String> lineas = Files.readAllLines(entrada);
+            List<String> lineas = Lector.leerCodigo(entrada);
             Conversor conversor = new Conversor();
             resultado = conversor.procesar(lineas);
         }

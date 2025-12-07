@@ -351,4 +351,11 @@ public class Conversor {
     public List<ErrorCompilacion> getErrores() { return errores; }
 
     public List<String> getLex() { return lex; }
+    public List<String> getListErrores(){
+        List<String> lista = new ArrayList<>();
+        for (ErrorCompilacion e: errores){
+            lista.add(e.toString());
+        }
+        return lista;
+    }
 }

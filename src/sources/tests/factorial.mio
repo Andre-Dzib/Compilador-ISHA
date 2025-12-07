@@ -1,9 +1,9 @@
 # Programa que calcula el factorial de un número
 PROGRAMA factorial
 # VarFac acumula los productos por iteración
-VarFac = 0x1
+VarFac = "tarea" # Error de numero
 # VarCon contiene el iterador del factor
-VarCon = 0x0
+VarCon = 0x0JKA # Error de formato hexadecimal
 IMPRIME “Cálculo del Factorial”
 IMPRIME “Número?”
 LEE Num
