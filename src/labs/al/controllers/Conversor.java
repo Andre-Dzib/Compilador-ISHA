@@ -208,8 +208,13 @@ public class Conversor {
             if (OPERACIONES_REL.contains(opRel)) {
                 lex.add("[op_rel]");
             }
+            id = tokens.get(3);
+            if (esIdentificador(id)) {
+                simbolos.registrarID(id);
+                lex.add("[id]");
+            }
 
-            procesarFactor(tokens.get(3), null);
+            procesarFactor(tokens.get(4), null);
 
             if (tokens.contains("HACER")) {
                 lex.add("HACER");
@@ -255,8 +260,8 @@ public class Conversor {
             lex.add("[val]");
         }
         else if(esTextoLiteral(token)){
-            simbolos.registrarTXT(token);
-            lex.add("[TXT]");
+            simbolos.registrarVAL(variableActual, token);
+            lex.add("[val]");
         }
         else {
             errores.add(new ErrorCompilacion(token, "Factor inválido", numLinea));

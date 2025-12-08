@@ -2,7 +2,7 @@ PROGRAMA
 [id]
 [id]
 =
-[TXT]
+[val]
 [id]
 =
 [val]
@@ -15,6 +15,7 @@ LEE
 MIENTRAS
 [id]
 [op_rel]
+[id]
 HACER
 [id]
 =

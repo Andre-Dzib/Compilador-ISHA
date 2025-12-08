@@ -8,12 +8,12 @@ Num,  ID4
 ==================================================
                       TXT'S                  
 ==================================================
-"Hola",  TXT1
-"Cálculo del Factorial",  TXT2
-"Número?",  TXT3
-"Factorial de ",  TXT4
-" es ",  TXT5
+"Cálculo del Factorial",  TXT1
+"Número?",  TXT2
+"Factorial de ",  TXT3
+" es ",  TXT4
 ==================================================
                       VAL'S                  
 ==================================================
 VarCon,  0x01
+VarFac,  0x32

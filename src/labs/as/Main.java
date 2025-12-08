@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        if(args.length > 1) {
+        if(args.length < 1) {
             System.out.println("se requiere especificar un archivo a evaluar");
             return;
         }
