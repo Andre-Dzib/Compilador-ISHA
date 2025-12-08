@@ -2,10 +2,8 @@ PROGRAMA
 [id]
 [id]
 =
-[val]
 [id]
 =
-[val]
 [id]
 =
 [id]

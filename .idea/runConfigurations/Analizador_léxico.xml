@@ -2,7 +2,7 @@
   <configuration default="false" name="Analizador léxico" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="labs.al.Main" />
     <module name="Compilador_FY" />
-    <option name="PROGRAM_PARAMETERS" value="./src/sources/factorial.mio" />
+    <option name="PROGRAM_PARAMETERS" value="./src/sources/tests/factorial.mio" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

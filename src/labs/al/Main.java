@@ -21,14 +21,13 @@ public class Main {
         }
 
         Conversor conversor = new Conversor();
-        Path ruta, base, rutaLex, rutaSim, rutaError;
+        Path ruta, rutaLex, rutaSim, rutaError;
         List<String> codigoBase;
         List<String> codigoLex;
         try {
             // ruta actual src.labs.al.main
             // ruta del documento src.sources.tests donde esta factorial.mio
-            base = Paths.get("src", "sources", "tests").toAbsolutePath();
-            ruta = base.resolve(args.length > 1 ? args[0] : "factorial.mio");
+            ruta = Paths.get(args[0]);
             codigoBase = Lector.leerCodigo(ruta);
             codigoLex = conversor.procesar(codigoBase);
 

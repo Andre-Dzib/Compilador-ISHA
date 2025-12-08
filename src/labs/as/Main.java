@@ -13,11 +13,10 @@ public class Main {
             System.out.println("se requiere especificar un archivo a evaluar");
             return;
         }
-        Path entrada, base;
-        base = Paths.get("src", "sources", "tests").toAbsolutePath();
+        Path entrada;
         boolean resultado = false;
         try {
-            entrada = base.resolve("suma.mio");
+            entrada = Paths.get(args[0]);
 
             List<String> lineas = Lector.leerCodigo(entrada);
             Conversor conversor = new Conversor();
