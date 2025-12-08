@@ -244,11 +244,6 @@ public class Conversor {
         // Nada coincide → error
         errores.add(new ErrorCompilacion(primero, "Token no reconocido", numLinea));
     }
-
-
-    // ================================================
-    // =                PROCESAR FACTOR               =
-    // ================================================
     private void procesarFactor(String token, String variableActual) {
 
         if (esIdentificador(token)) {
@@ -267,11 +262,6 @@ public class Conversor {
             errores.add(new ErrorCompilacion(token, "Factor inválido", numLinea));
         }
     }
-
-
-    // ================================================
-    // =                 TOKENIZADOR                  =
-    // ================================================
     public List<String> tokenizar(String linea) {
         List<String> tokens = new ArrayList<>();
 
