@@ -2,8 +2,10 @@ PROGRAMA
 [id]
 [id]
 =
+[TXT]
 [id]
 =
+[val]
 IMPRIME
 [txt]
 IMPRIME

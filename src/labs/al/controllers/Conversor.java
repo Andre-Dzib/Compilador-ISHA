@@ -244,11 +244,6 @@ public class Conversor {
         // Nada coincide → error
         errores.add(new ErrorCompilacion(primero, "Token no reconocido", numLinea));
     }
-
-
-    // ================================================
-    // =                PROCESAR FACTOR               =
-    // ================================================
     private void procesarFactor(String token, String variableActual) {
 
         if (esIdentificador(token)) {
@@ -259,97 +254,69 @@ public class Conversor {
             simbolos.registrarVAL(variableActual, token); // Error, solucionarlo más tarde
             lex.add("[val]");
         }
+        else if(esTextoLiteral(token)){
+            simbolos.registrarTXT(token);
+            lex.add("[TXT]");
+        }
         else {
             errores.add(new ErrorCompilacion(token, "Factor inválido", numLinea));
         }
     }
-
-
-    // ================================================
-    // =                 TOKENIZADOR                  =
-    // ================================================
     public List<String> tokenizar(String linea) {
         List<String> tokens = new ArrayList<>();
 
         // Normalizar comillas tipográficas a comillas ASCII
         linea = linea.replace('“', '"').replace('”', '"');
-
         boolean enComillas = false;
         StringBuilder cur = new StringBuilder();
-
         for (int i = 0; i < linea.length(); i++) {
             char c = linea.charAt(i);
-
-            // --- Manejo de comillas ---
+            // Manejo de comillas
             if (c == '"') {
                 cur.append(c);
                 enComillas = !enComillas;
                 continue;
             }
 
-            // --- Si estamos dentro de comillas, copiar literalmente ---
+            // Si estamos dentro de comillas, copiar literalmente
             if (enComillas) {
                 cur.append(c);
                 continue;
             }
 
-            // --- Separadores fuera de comillas ---
+            // Separadores fuera de comillas
             if (Character.isWhitespace(c) || "=<>+-*/".indexOf(c) >= 0) {
-
                 // Si había algo acumulado, agrégalo
                 if (cur.length() > 0) {
                     tokens.add(cur.toString());
                     cur.setLength(0);
                 }
-
                 // Operadores también son tokens (excepto espacios)
                 if (!Character.isWhitespace(c)) {
                     tokens.add(String.valueOf(c));
                 }
-
                 continue;
             }
-
-            // --- Caracter normal ---
             cur.append(c);
         }
-
-        // Último token si quedó algo
         if (cur.length() > 0) {
             tokens.add(cur.toString());
         }
-
         return tokens;
     }
-
-
-
-
-
-    // ================================================
-    // =                VALIDADORES                   =
-    // ================================================
     private boolean esIdentificador(String t) {
         Matcher m = IDENTIFICADORES.matcher(t);
         return m.matches() && !PALABRAS_RESERVADAS.contains(t);
     }
-
     private boolean esHex(String t) {
         return HEXADECIMAL.matcher(t).matches();
     }
-
     private boolean esTextoLiteral(String t) {
         return TEXTO.matcher(t).matches();
     }
-
-
-    // ================================================
-    // =       ACCESOS A TABLA Y ERRORES              =
-    // ================================================
+    // Para retornar datos
     public TablaSimbolo getTabla() { return simbolos; }
-
     public List<ErrorCompilacion> getErrores() { return errores; }
-
     public List<String> getLex() { return lex; }
     public List<String> getListErrores(){
         List<String> lista = new ArrayList<>();
