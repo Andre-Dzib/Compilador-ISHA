@@ -1,3 +1,1 @@
-[Factor inválido] Línea 2: "tarea"
-[Factor inválido] Línea 3: 0x0JKA
 [Factor inválido] Línea 7: =
